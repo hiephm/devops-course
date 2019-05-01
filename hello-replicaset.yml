@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: hello-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: helloworld
+      env: prod
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        env: prod
+    spec:
+      containers:
+      - image: hiephm/hello:1.0
+        name: hello
+        ports:
+          - containerPort: 5000
+            name: http
+            protocol: TCP

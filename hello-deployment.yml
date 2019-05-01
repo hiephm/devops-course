@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: helloworld
+      env: prod
+  strategy:
+    type: RollingUpdate  
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        env: prod
+    spec:
+      containers:
+      - image: hiephm/hello:1.0
+        name: hello
+        ports:
+          - containerPort: 5000
+            name: http
+            protocol: TCP
