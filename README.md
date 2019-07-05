@@ -102,3 +102,30 @@ gke-k8s-demo-pool-1-c938b222-3w3x   Ready    <none>   3h29m   v1.12.7-gke.10
 gke-k8s-demo-pool-1-c938b222-bbwh   Ready    <none>   3h29m   v1.12.7-gke.10
 gke-k8s-demo-pool-1-c938b222-prrp   Ready    <none>   3h29m   v1.12.7-gke.10
 ```
+
+# 4. Setup Kubernetes Dashboard
+## Apply dashboard deployment
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+```
+
+## Create user
+```
+kubectl apply -f https://raw.githubusercontent.com/hiephm/devops-course/master/hello-k8s/rbac.yml
+```
+
+## Get access token
+```
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+```
+
+## Start proxy
+```
+kubectl proxy
+```
+
+## Access dashboard from browser, using above token:
+```
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+```
+
